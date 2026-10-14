@@ -1,0 +1,24 @@
+enum Role { ADMIN USER }
+model User {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  role    Role     @default(USER)
+  posts   Post[]
+  @@map("users")
+}
+model Post {
+  id        Int     @id
+  title     String
+  authorId  Int     @map("author_id")
+  author    User    @relation(fields: [authorId], references: [id])
+  tags      TagOnPost[]
+}
+model Tag { id Int @id
+  name String }
+model TagOnPost {
+  postId Int
+  tagId  Int
+  post   Post @relation(fields: [postId], references: [id])
+  tag    Tag  @relation(fields: [tagId], references: [id])
+  @@id([postId, tagId])
+}

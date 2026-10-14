@@ -1,0 +1,46 @@
+{
+  "name": "dbscope",
+  "version": "0.1.0",
+  "description": "Database-agnostic schema mapper for Claude: analyzes any DB, visualizes relations on localhost, and injects only the relevant tables into each prompt to cut token cost.",
+  "type": "module",
+  "bin": {
+    "dbscope": "bin/dbscope.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node bin/dbscope.js serve",
+    "test": "node --test test/*.test.js"
+  },
+  "optionalDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1151.0",
+    "@libsql/client": "^0.18.0",
+    "cassandra-driver": "^4.10.0",
+    "firebase-admin": "^13.0.0",
+    "mongodb": "^6.10.0",
+    "mssql": "^11.0.0",
+    "mysql2": "^3.11.0",
+    "neo4j-driver": "^5.28.3",
+    "oracledb": "^6.10.0",
+    "pg": "^8.13.0",
+    "redis": "^4.7.0"
+  },
+  "license": "MIT",
+  "files": [
+    "bin",
+    "src",
+    "web",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "mcp",
+    "database",
+    "schema",
+    "er-diagram",
+    "token-optimization"
+  ]
+}

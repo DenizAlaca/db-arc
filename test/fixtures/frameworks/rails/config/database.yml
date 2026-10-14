@@ -1,0 +1,7 @@
+default: &default
+  adapter: postgresql
+  host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
+  username: rails
+development:
+  <<: *default
+  database: blog_development

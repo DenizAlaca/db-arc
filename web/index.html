@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>dbscope</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9.5v13L16 30 3 22.5v-13z" fill="none" stroke="currentColor" stroke-width="2"/><ellipse cx="16" cy="12" rx="7" ry="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 12v8c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6v-8M9 16c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span>dbscope</span>
+    </div>
+    <div class="dbchip" id="dbchip"><span class="dot"></span><span id="dbname">—</span></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="actions">
+      <select id="sources" title="Algılanan veri kaynakları"></select>
+      <button id="reanalyze" class="btn">↻ Analiz</button>
+      <span class="live" id="live"><i></i>CANLI</span>
+    </div>
+  </header>
+
+  <main>
+    <aside class="side">
+      <nav class="tabs">
+        <button data-tab="overview" class="on">Genel</button>
+        <button data-tab="live">Canlı <b id="promptCount">0</b></button>
+        <button data-tab="tables">Tablolar</button>
+        <button data-tab="usage">Tüketim</button>
+      </nav>
+
+      <section class="pane on" id="tab-overview">
+        <div class="card">
+          <div class="card-h"><h3>Projenin amacı</h3><span class="pill" id="summaryTag"></span></div>
+          <p id="summary" class="summary"></p>
+          <details class="edit">
+            <summary>Düzenle</summary>
+            <textarea id="summaryEdit" rows="5" placeholder="Projenin ne yaptığını yazın. İlk cümle her oturumda Claude'a gider."></textarea>
+            <div class="row"><button id="saveSummary" class="btn primary">Kaydet</button><span class="hint">↳ Claude'a giden bağlamın başına eklenir</span></div>
+          </details>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Alan tahmini</h3></div>
+          <div id="domains"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Token ekonomisi</h3><span class="pill" title="Bu oturumlarda dbscope'un gönderdiği bağlam, kırpma ve tekrar önleme olmasaydı gönderilecek bağlamla karşılaştırılır">bağlam</span></div>
+          <div id="economy" class="economy"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Modüller</h3><span class="hint">tıkla → vurgula</span></div>
+          <ul id="modules" class="modules"></ul>
+        </div>
+      </section>
+
+      <section class="pane" id="tab-live">
+        <div class="card">
+          <div class="card-h"><h3>Prompt simülatörü</h3></div>
+          <textarea id="tryPrompt" rows="3" placeholder="örn: iptal edilen siparişleri müşteriye göre raporla  (⌘↵)"></textarea>
+          <div class="row"><button id="tryBtn" class="btn primary">Eşleştir</button><span class="hint">Claude'a gitmeden önizler</span></div>
+        </div>
+        <ul id="feed" class="feed"></ul>
+      </section>
+
+      <section class="pane" id="tab-tables">
+        <input id="tableSearch" type="search" placeholder="Tablo, açıklama veya takma ad ara…">
+        <div class="filters" id="roleFilters"></div>
+        <ul id="tableList" class="tlist"></ul>
+      </section>
+
+      <section class="pane" id="tab-usage">
+        <div class="card">
+          <div class="card-h"><h3>Gerçek kullanım</h3><span class="pill">Claude Code kayıtları</span></div>
+          <p class="hint block">Bu projedeki Claude Code oturumlarının gerçek token tüketimi. dbscope'lu ve dbscope'suz oturumlar ayrı ayrı karşılaştırılır. Kesin A/B ölçümü için <code>dbscope bench</code>.</p>
+          <div id="usageSummary" class="usage-sum"></div>
+        </div>
+        <ul id="sessions" class="sessions"></ul>
+      </section>
+    </aside>
+
+    <section class="stage" id="stage">
+      <div class="toolbar">
+        <div class="search"><input id="spot" placeholder="Tabloya git…" autocomplete="off"><kbd>/</kbd></div>
+        <button class="ic" id="zoomOut" title="Uzaklaş">−</button>
+        <button class="ic" id="zoomIn" title="Yakınlaş">+</button>
+        <button class="ic" id="fit" title="Sığdır">⤢</button>
+        <button class="ic" id="clearHl" title="Vurguyu temizle">✕</button>
+        <span class="sep"></span>
+        <label class="tg"><input type="checkbox" id="showInferred" checked><span>çıkarımsal</span></label>
+        <label class="tg"><input type="checkbox" id="showHubs"><span>hub</span></label>
+        <label class="tg"><input type="checkbox" id="hideSystem"><span>sistem/log gizle</span></label>
+        <label class="tg"><input type="checkbox" id="expandAll"><span>tüm kolonlar</span></label>
+      </div>
+      <div id="er" class="er"></div>
+      <div class="hud hidden" id="hud"></div>
+      <div class="legend">
+        <span><i class="lg-line"></i>FK</span>
+        <span><i class="lg-line dashed"></i>isimden çıkarılan</span>
+        <span><i class="lg-box primary"></i>prompt eşleşmesi</span>
+        <span><i class="lg-box neighbor"></i>ilişkili</span>
+        <span><i class="lg-box reused"></i>zaten bağlamda</span>
+      </div>
+      <canvas id="minimap" class="minimap" width="220" height="150"></canvas>
+      <div id="empty" class="empty hidden"></div>
+    </section>
+
+    <aside class="drawer hidden" id="drawer">
+      <button class="close" id="closeDrawer">✕</button>
+      <div id="drawerBody"></div>
+    </aside>
+  </main>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

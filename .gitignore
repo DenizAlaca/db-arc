@@ -1,0 +1,4 @@
+node_modules/
+.dbscope/
+.DS_Store
+*.log

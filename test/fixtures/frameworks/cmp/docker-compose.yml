@@ -1,0 +1,12 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: shop
+      POSTGRES_PASSWORD: pw
+      POSTGRES_DB: shopdb
+    ports:
+      - "5433:5432"
+  cache:
+    image: redis:7
+    ports: ["6380:6379"]
