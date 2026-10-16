@@ -321,4 +321,41 @@ test/                   npm test
 
 ## Lisans
 
-MIT
+# Dbscope – Restricted Use License
+
+Copyright (c) 2026 dbscope contributors. All rights reserved.
+
+## 1. Grant of License
+
+The copyright holder grants the recipient a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to use the Software solely for personal, internal evaluation, or other explicitly authorized non-commercial purposes.
+
+This license grants only the right to use the Software in its original form and does not transfer any ownership or intellectual property rights.
+
+## 2. Restrictions
+
+Without the prior written permission of the copyright holder, you may not:
+
+- Use the Software for any commercial purpose, including selling, licensing, renting, or providing it as part of a paid service.
+- Modify, adapt, translate, or create derivative works based on the Software.
+- Incorporate the Software or any part of it into your own product, application, platform, or commercial offering.
+- Redistribute, sublicense, publish, sell, or otherwise make the Software available to third parties.
+- Remove or alter copyright notices, license terms, or proprietary notices.
+- Use the Software to develop or offer a competing product or service.
+
+## 3. Ownership
+
+The Software and all associated intellectual property rights remain the exclusive property of the copyright holder. No rights are granted except those expressly stated in this license.
+
+## 4. Termination
+
+Any violation of this license automatically terminates the rights granted herein, subject to applicable law. Upon termination, you must cease all use of the Software and destroy any copies in your possession, to the extent legally required.
+
+## 5. Disclaimer of Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE SOFTWARE OR ITS USE.
+
+## 6. Additional Permissions
+
+Any rights not expressly granted by this license are reserved by the copyright holder. Commercial use, modification, redistribution, integration into other products, or the creation of derivative works requires prior written authorization from the copyright holder.
